@@ -8,18 +8,22 @@ import {
   TouchableOpacity
 } from 'react-native'
 
-/** Estrutura
- * task
- * description
- * conclud
+/** Estrutura do banco
+ * id: int
+ * task: string
+ * description: string
+ * conclud: boolean
+ * {"conclud": false, "description": "descrição", "id": "1", "task": "tarefa 1"}
  */
 
 const Task = ({ navigation }) => {
+  //A constante tasks recebe todas as tarefas do banco
   const [tasks, setTasks] = useState([])
+  //constantes que armazenam os valores digitados pelo usuário
   const [task, setTask] = useState('')
   const [description, setDescription] = useState('')
 
-  //Recuperando os dados do banco
+  //Esse useEffect recupera as tarefas do banco e coloca o objeto task no array tasks para que possamos usar o metodo tasks.push no onSave
   useEffect(() => {
     AsyncStorage.getItem('dataTasks').then(data => {
       const tasks = JSON.parse(data)
@@ -51,8 +55,12 @@ const Task = ({ navigation }) => {
   const onSave = async () => {
     if (isValid()) {
       const conclud = false
+
+      // Função para gerar ids aleatórios
       let d = new Date()
       const id = d.getTime().toString()
+
+      // Criando a "classe" de task: data, para receber os valores da task
       const data = {
         id,
         task,
@@ -61,8 +69,9 @@ const Task = ({ navigation }) => {
       }
       console.log('Válido!')
       console.log(data)
-
+      //A dicionando as tarefas ao final da lista
       tasks.push(data)
+      // gravando a tarefa nova no banco
       await AsyncStorage.setItem('dataTasks', JSON.stringify(tasks))
       navigation.navigate('Main')
     } else {
@@ -97,6 +106,7 @@ const Task = ({ navigation }) => {
       <TouchableOpacity
         //Botão de Cadastrar
         style={[styles.saveButton, isValid() ? '' : styles.saveButtonInvalid]}
+        //chamando a função de gravar no banco onSave
         onPress={onSave}
       >
         <Text style={styles.saveButtonText}>Cadastrar</Text>

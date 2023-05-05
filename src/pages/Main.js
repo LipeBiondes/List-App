@@ -10,9 +10,10 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 const Main = ({ navigation }) => {
+  //essa const armazena as tarefas recuperadas
   const [tasks, setTask] = useState([])
 
-  // Recuperando os dados do banco
+  // Recuperando os dados do banco e setando os dados recuperados na Flatlist toda vez que a pagina é renderizada
   useEffect(() => {
     AsyncStorage.getItem('dataTasks').then(data => {
       const tasks = JSON.parse(data)
