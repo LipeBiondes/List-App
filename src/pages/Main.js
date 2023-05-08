@@ -13,19 +13,7 @@ const Main = ({ navigation }) => {
   //essa const armazena as tarefas recuperadas
   const [tasks, setTasks] = useState([])
 
-  /*
-  // Recuperando os dados do banco e setando os dados recuperados na Flatlist toda vez que a pagina é renderizada
-  useEffect(() => {
-    AsyncStorage.removeItem('dataTasks')
-    AsyncStorage.getItem('dataTasks').then(data => {
-      const tasks = JSON.parse(data)
-      console.log('data: ', tasks)
-      setTasks(tasks)
-    })
-  }, [])
-*/
-
-  // Recarregando a lista de tarefas toda vez que a tela Main voltar a ter foco
+  // Recarregando a lista de tarefas toda vez que a tela Main voltar a ter foco e recuperando os dados do bd e setando os dados recuperados na Flatlist
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       AsyncStorage.getItem('dataTasks').then(data => {
@@ -37,14 +25,39 @@ const Main = ({ navigation }) => {
     return unsubscribe
   }, [navigation])
 
+  //Função para passar os parametros id e isEdit pelo navigate
+  const onTaskEdit = taskId => {
+    const task = tasks.find(item => item.id === taskId)
+    navigation.navigate('Task', { taskGet: task, isEdit: true })
+  }
+
+  //Função para passar os parametros id e isEdit vazios pois na pagina Task se espera que esses parametros sejam sempre passados
+  const onNewTask = () => {
+    const task = { id: 0, task: '', description: '' }
+    navigation.navigate('Task', { taskGet: task, isEdit: false })
+  }
+  //Função para apagar a tarefa do bd
+  const onTaskDelete = async taskId => {
+    const newTasks = tasks.filter(item => item.id !== taskId)
+    await AsyncStorage.setItem('dataTasks', JSON.stringify(newTasks))
+    setTasks(newTasks)
+  }
+  //Função para alterar o conclud da tarefa no bd
+  const onTaskConclud = async taskId => {
+    const newTasks = tasks.map(item => {
+      if (item.id === taskId) {
+        item.conclud = !item.conclud
+      }
+      return item
+    })
+    await AsyncStorage.setItem('dataTasks', JSON.stringify(newTasks))
+    setTasks(newTasks)
+  }
   return (
     <View style={styles.container}>
       <View style={styles.toolBox}>
         <Text style={styles.title}>Lista de Tarefas</Text>
-        <TouchableOpacity
-          style={styles.toolBoxButton}
-          onPress={() => navigation.navigate('Task')}
-        >
+        <TouchableOpacity style={styles.toolBoxButton} onPress={onNewTask}>
           <Icon name="add" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -53,9 +66,33 @@ const Main = ({ navigation }) => {
         data={tasks}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.itemButton}>
-            <Text style={styles.itemText}>{item.task}</Text>
-          </TouchableOpacity>
+          <View style={styles.itemsContainer}>
+            <TouchableOpacity
+              style={styles.itemButton}
+              onPress={() => onTaskConclud(item.id)}
+            >
+              <Text
+                style={[
+                  styles.itemText,
+                  item.conclud ? styles.itemConlcud : ''
+                ]}
+              >
+                {item.task}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() => onTaskEdit(item.id)}
+            >
+              <Icon name="create" size={30} color="#2ecc71" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={() => onTaskDelete(item.id)}
+            >
+              <Icon name="delete" size={30} color="red" />
+            </TouchableOpacity>
+          </View>
         )}
       />
     </View>
@@ -91,12 +128,16 @@ const styles = StyleSheet.create({
   itemButton: {
     flex: 1
   },
-  editButton: {},
+  editButton: {
+    paddingRight: 10
+  },
   itemText: {
     fontSize: 30
   },
-  deleteButton: {},
-  itemRead: {
+  deleteButton: {
+    paddingRight: 10
+  },
+  itemConlcud: {
     textDecorationLine: 'line-through',
     color: '#95a5a6'
   }

@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useState, useEffect } from 'react'
 import {
@@ -16,18 +17,22 @@ import {
  * {"conclud": false, "description": "descrição", "id": "1", "task": "tarefa 1"}
  */
 
-const Task = ({ navigation }) => {
+const Task = ({ navigation, route }) => {
+  const { taskGet, isEdit } = route.params
+
   //A constante tasks recebe todas as tarefas do banco
   const [tasks, setTasks] = useState([])
-  //constantes que armazenam os valores digitados pelo usuário
-  const [task, setTask] = useState('')
-  const [description, setDescription] = useState('')
+
+  // Constantes que armazenam os valores digitados pelo usuário
+  const [task, setTask] = useState(taskGet.task)
+  const [description, setDescription] = useState(taskGet.description)
+  const [conclud, setConclud] = useState(taskGet.conclud)
 
   //Esse useEffect recupera as tarefas do banco e coloca o objeto task no array tasks para que possamos usar o metodo tasks.push no onSave
   useEffect(() => {
     AsyncStorage.getItem('dataTasks').then(data => {
       const tasks = JSON.parse(data)
-      console.log('data: ', tasks)
+      console.log(tasks)
       if (data == null) {
         setTasks([
           {
@@ -54,25 +59,50 @@ const Task = ({ navigation }) => {
   //Função para salvar os dados no banco
   const onSave = async () => {
     if (isValid()) {
-      const conclud = false
+      if (isEdit) {
+        //Editando uma tarefa existente
+        //Variável temporaria para receber todas as listas de atividades
+        let newTasks = tasks
+        newTasks.map(item => {
+          //usamos a função map onde o id seja o mesmo passado pele navigate para alterar o titulo da task e a descrição
+          if (item.id === taskGet.id) {
+            item.task = task
+            item.description = description
+            item.conclud = conclud
+          }
+          return item
+        })
+        //Mandando para o bd a lista de tarefas atualizadas
+        await AsyncStorage.setItem('dataTasks', JSON.stringify(newTasks))
+        console.log('Lista Atualizada: ', newTasks)
+      } else {
+        //Adicionando uma nova tarefa
+        const conclud = false
 
-      // Função para gerar ids aleatórios
-      let d = new Date()
-      const id = d.getTime().toString()
+        // Função para gerar ids aleatórios
+        let d = new Date()
+        const id = d.getTime().toString()
 
-      // Criando a "classe" de task: data, para receber os valores da task
-      const data = {
-        id,
-        task,
-        description,
-        conclud
+        // Criando a "classe" de task: data, para receber os valores da task
+        const data = {
+          id,
+          task,
+          description,
+          conclud
+        }
+
+        console.log('Válido!')
+        console.log(data)
+
+        // Removendo a tarefa com o campo task igual a ''
+        const updatedTasks = tasks.filter(task => task.task !== '')
+
+        // Adicionando a nova task ao final da lista
+        updatedTasks.push(data)
+
+        // gravando a tarefa nova no banco
+        await AsyncStorage.setItem('dataTasks', JSON.stringify(updatedTasks))
       }
-      console.log('Válido!')
-      console.log(data)
-      //A dicionando as tarefas ao final da lista
-      tasks.push(data)
-      // gravando a tarefa nova no banco
-      await AsyncStorage.setItem('dataTasks', JSON.stringify(tasks))
       navigation.navigate('Main')
     } else {
       console.log('Inválido!')
@@ -81,7 +111,9 @@ const Task = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.pageTitle}>Escreva uma nova tarefa...</Text>
+      <Text style={styles.pageTitle}>
+        {isEdit ? 'Altere sua Tarefa' : 'Escreva uma nova tarefa...'}
+      </Text>
 
       <TextInput
         placeholder="Nome da tarefa."
@@ -97,7 +129,7 @@ const Task = ({ navigation }) => {
         style={styles.input}
         multiline={true}
         numberOfLines={5}
-        alue={description}
+        value={description}
         onChangeText={text => {
           setDescription(text)
         }}
@@ -109,7 +141,9 @@ const Task = ({ navigation }) => {
         //chamando a função de gravar no banco onSave
         onPress={onSave}
       >
-        <Text style={styles.saveButtonText}>Cadastrar</Text>
+        <Text style={styles.saveButtonText}>
+          {isEdit ? 'Atualizar' : 'Cadastrar'}
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
