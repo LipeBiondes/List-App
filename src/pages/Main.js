@@ -8,7 +8,7 @@ import {
   FlatList
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-
+import Constants from 'expo-constants'
 const Main = ({ navigation }) => {
   //essa const armazena as tarefas recuperadas
   const [tasks, setTasks] = useState([])
@@ -18,7 +18,6 @@ const Main = ({ navigation }) => {
     const unsubscribe = navigation.addListener('focus', () => {
       AsyncStorage.getItem('dataTasks').then(data => {
         const tasks = JSON.parse(data)
-        console.log('data: ', tasks)
         setTasks(tasks)
       })
     })
@@ -58,7 +57,7 @@ const Main = ({ navigation }) => {
       <View style={styles.toolBox}>
         <Text style={styles.title}>Lista de Tarefas</Text>
         <TouchableOpacity style={styles.toolBoxButton} onPress={onNewTask}>
-          <Icon name="add" size={24} color="#fff" />
+          <Icon name="add" size={35} color="#fff" />
         </TouchableOpacity>
       </View>
       <FlatList
@@ -84,13 +83,13 @@ const Main = ({ navigation }) => {
               style={styles.editButton}
               onPress={() => onTaskEdit(item.id)}
             >
-              <Icon name="create" size={30} color="#2ecc71" />
+              <Icon name="create" size={35} color="#2ecc71" />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.deleteButton}
               onPress={() => onTaskDelete(item.id)}
             >
-              <Icon name="delete" size={30} color="red" />
+              <Icon name="delete" size={35} color="red" />
             </TouchableOpacity>
           </View>
         )}
@@ -101,41 +100,44 @@ const Main = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5
+    padding: 5,
+    paddingTop: Constants.statusBarHeight - 20,
+    backgroundColor: '#f0ee87'
   },
   toolBox: {
     flexDirection: 'row',
     marginBottom: 5,
-    marginTop: 15,
     marginRight: 5
   },
   title: {
     flex: 1,
     color: '#3498db',
-    fontSize: 32
+    fontSize: 40
   },
   toolBoxButton: {
     borderRadius: 50,
     backgroundColor: '#3498db',
-    height: 30,
-    width: 30,
+    height: 42,
+    width: 42,
     justifyContent: 'center',
     alignItems: 'center'
   },
   itemsContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    borderBottomWidth: 2,
+    borderBottomColor: '#d7dd75'
   },
   itemButton: {
     flex: 1
   },
   editButton: {
-    paddingRight: 10
+    paddingRight: 2
   },
   itemText: {
-    fontSize: 30
+    fontSize: 35
   },
   deleteButton: {
-    paddingRight: 10
+    paddingRight: 2
   },
   itemConlcud: {
     textDecorationLine: 'line-through',

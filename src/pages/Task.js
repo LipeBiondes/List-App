@@ -8,7 +8,7 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native'
-
+import Constants from 'expo-constants'
 /** Estrutura do banco
  * id: int
  * task: string
@@ -32,7 +32,6 @@ const Task = ({ navigation, route }) => {
   useEffect(() => {
     AsyncStorage.getItem('dataTasks').then(data => {
       const tasks = JSON.parse(data)
-      console.log(tasks)
       if (data == null) {
         setTasks([
           {
@@ -74,7 +73,6 @@ const Task = ({ navigation, route }) => {
         })
         //Mandando para o bd a lista de tarefas atualizadas
         await AsyncStorage.setItem('dataTasks', JSON.stringify(newTasks))
-        console.log('Lista Atualizada: ', newTasks)
       } else {
         //Adicionando uma nova tarefa
         const conclud = false
@@ -90,10 +88,6 @@ const Task = ({ navigation, route }) => {
           description,
           conclud
         }
-
-        console.log('Válido!')
-        console.log(data)
-
         // Removendo a tarefa com o campo task igual a ''
         const updatedTasks = tasks.filter(task => task.task !== '')
 
@@ -105,7 +99,7 @@ const Task = ({ navigation, route }) => {
       }
       navigation.navigate('Main')
     } else {
-      console.log('Inválido!')
+      alert('Por favor preencha os campos...')
     }
   }
 
@@ -158,7 +152,8 @@ const Task = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 14
+    paddingTop: Constants.statusBarHeight - 20,
+    margin: 5
   },
   containerButtons: {
     alignItems: 'center'
