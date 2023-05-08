@@ -29,7 +29,7 @@ const Task = ({ navigation }) => {
       const tasks = JSON.parse(data)
       console.log('data: ', tasks)
       if (data == null) {
-        setTask([
+        setTasks([
           {
             conclud: false,
             description: '',
@@ -124,8 +124,7 @@ const Task = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 14,
-    marginTop: 45
+    padding: 14
   },
   containerButtons: {
     alignItems: 'center'

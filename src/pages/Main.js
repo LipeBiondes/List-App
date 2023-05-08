@@ -11,16 +11,31 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 
 const Main = ({ navigation }) => {
   //essa const armazena as tarefas recuperadas
-  const [tasks, setTask] = useState([])
+  const [tasks, setTasks] = useState([])
 
+  /*
   // Recuperando os dados do banco e setando os dados recuperados na Flatlist toda vez que a pagina é renderizada
   useEffect(() => {
+    AsyncStorage.removeItem('dataTasks')
     AsyncStorage.getItem('dataTasks').then(data => {
       const tasks = JSON.parse(data)
       console.log('data: ', tasks)
-      setTask(tasks)
+      setTasks(tasks)
     })
   }, [])
+*/
+
+  // Recarregando a lista de tarefas toda vez que a tela Main voltar a ter foco
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      AsyncStorage.getItem('dataTasks').then(data => {
+        const tasks = JSON.parse(data)
+        console.log('data: ', tasks)
+        setTasks(tasks)
+      })
+    })
+    return unsubscribe
+  }, [navigation])
 
   return (
     <View style={styles.container}>
@@ -49,8 +64,7 @@ const Main = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
-    marginTop: 45
+    padding: 5
   },
   toolBox: {
     flexDirection: 'row',
