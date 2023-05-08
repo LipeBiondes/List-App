@@ -18,6 +18,7 @@ import Constants from 'expo-constants'
  */
 
 const Task = ({ navigation, route }) => {
+  //Recebendo os parametros da pagina Main e setando eles para as variaves abaixo
   const { taskGet, isEdit } = route.params
 
   //A constante tasks recebe todas as tarefas do banco
