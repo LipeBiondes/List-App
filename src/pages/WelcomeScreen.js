@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
-import Constants from 'expo-constants'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 const WelcomeScreen = ({ navigation }) => {
@@ -9,9 +8,11 @@ const WelcomeScreen = ({ navigation }) => {
       <View style={style.background}>
         <TouchableOpacity onPress={() => navigation.navigate('Main')}>
           <Text style={style.title}> Seja bem-vindo!</Text>
-          <Text style={style.subtitle}> Para começar bem o seu dia, comece organizando as suas tarefas</Text>
+          <Text style={style.subtitle}>
+            Para começar bem o seu dia, comece organizando as suas tarefas!
+          </Text>
           {/* <Icon name="fa-laugh-beam" size={35} color="#fff" style={style.icon} /> */}
-          <Icon name="list" size={35} color="#fff" style={style.icon}/>
+          <Icon name="pencil" size={35} color="#000" style={style.icon} />
         </TouchableOpacity>
       </View>
     </View>
@@ -29,12 +30,12 @@ const style = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
-    elevation: 2,
+    elevation: 2
   },
   background: {
     backgroundColor: '#FA8072',
     padding: 20,
-    borderRadius: 10,
+    borderRadius: 10
   },
   title: {
     fontSize: 35,
@@ -44,8 +45,7 @@ const style = StyleSheet.create({
     color: '#4B0082',
     textShadowColor: '#fff',
     textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2,
-
+    textShadowRadius: 2
   },
   subtitle: {
     fontSize: 20,
@@ -53,12 +53,11 @@ const style = StyleSheet.create({
     textAlign: 'center',
     marginTop: 10,
     marginBottom: 30,
-    fontStyle: 'italic',
+    fontStyle: 'italic'
   },
   icon: {
     textAlign: 'center',
-    marginTop: 10,
-
+    marginTop: 10
   }
 })
 

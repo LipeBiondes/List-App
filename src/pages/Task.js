@@ -9,6 +9,7 @@ import {
   TouchableOpacity
 } from 'react-native'
 import Constants from 'expo-constants'
+import ValidationAlertButton from '../components/ValidationAlertButton'
 /** Estrutura do banco
  * id: int
  * task: string
@@ -28,7 +29,15 @@ const Task = ({ navigation, route }) => {
   const [task, setTask] = useState(taskGet.task)
   const [description, setDescription] = useState(taskGet.description)
   const [conclud, setConclud] = useState(taskGet.conclud)
+  const [showAlert, setShowAlert] = useState(false)
 
+  const handlePress = () => {
+    setShowAlert(true)
+  }
+
+  const handleClose = () => {
+    setShowAlert(false)
+  }
   //Esse useEffect recupera as tarefas do banco e coloca o objeto task no array tasks para que possamos usar o metodo tasks.push no onSave
   useEffect(() => {
     AsyncStorage.getItem('dataTasks').then(data => {
@@ -87,7 +96,8 @@ const Task = ({ navigation, route }) => {
           id,
           task,
           description,
-          conclud
+          conclud,
+          icon: 'square-o'
         }
         // Removendo a tarefa com o campo task igual a ''
         const updatedTasks = tasks.filter(task => task.task !== '')
@@ -100,10 +110,9 @@ const Task = ({ navigation, route }) => {
       }
       navigation.navigate('Main')
     } else {
-      alert('Por favor preencha os campos...')
+      handlePress()
     }
   }
-
   return (
     <View style={styles.container}>
       <Text style={styles.pageTitle}>
@@ -136,6 +145,12 @@ const Task = ({ navigation, route }) => {
         //chamando a função de gravar no banco onSave
         onPress={onSave}
       >
+        <ValidationAlertButton
+          isVisible={showAlert}
+          title="Error"
+          message="Erro ao salvar, não deixe campos vazios!"
+          onClose={handleClose}
+        />
         <Text style={styles.saveButtonText}>
           {isEdit ? 'Atualizar' : 'Cadastrar'}
         </Text>
@@ -143,6 +158,7 @@ const Task = ({ navigation, route }) => {
 
       <TouchableOpacity
         //Botão de Cancelar
+        style={styles.cancelButton}
         onPress={() => navigation.navigate('Main')}
       >
         <Text style={styles.cancelButtonText}>Cancelar</Text>
@@ -176,7 +192,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 8,
-    marginBottom: 20,
+    marginBottom: 12,
     marginTop: 22
   },
   saveButtonInvalid: {
@@ -188,11 +204,19 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     alignSelf: 'center'
   },
-  cancelButton: {},
+  cancelButton: {
+    borderColor: '#000',
+    borderWidth: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 8,
+    marginBottom: 20
+  },
   cancelButtonText: {
     fontSize: 26,
-    color: '#95a5a6',
-    alignSelf: 'center'
+    color: '#000',
+    alignSelf: 'center',
+    fontWeight: '500'
   }
 })
 export default Task
