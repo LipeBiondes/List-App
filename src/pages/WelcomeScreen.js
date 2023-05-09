@@ -2,13 +2,18 @@ import * as React from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
 import Icon from 'react-native-vector-icons/FontAwesome'
+
 const WelcomeScreen = ({ navigation }) => {
   return (
     <View style={style.container}>
-      <TouchableOpacity onPress={() => navigation.navigate('Main')}>
-        <Text> Vamos Começar!</Text>
-        <Icon name="fa-tasks" size={35} color="#fff" />
-      </TouchableOpacity>
+      <View style={style.background}>
+        <TouchableOpacity onPress={() => navigation.navigate('Main')}>
+          <Text style={style.title}> Seja bem-vindo!</Text>
+          <Text style={style.subtitle}> Para começar bem o seu dia, comece organizando as suas tarefas</Text>
+          {/* <Icon name="fa-laugh-beam" size={35} color="#fff" style={style.icon} /> */}
+          <Icon name="list" size={35} color="#fff" style={style.icon}/>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
@@ -16,9 +21,45 @@ const WelcomeScreen = ({ navigation }) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
-    paddingTop: Constants.statusBarHeight + 10,
-    backgroundColor: '#f0ee87'
+    backgroundColor: '#E9967A',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  background: {
+    backgroundColor: '#FA8072',
+    padding: 20,
+    borderRadius: 10,
+  },
+  title: {
+    fontSize: 35,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+    color: '#4B0082',
+    textShadowColor: '#fff',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
+
+  },
+  subtitle: {
+    fontSize: 20,
+    color: '#4F4F4F',
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 30,
+    fontStyle: 'italic',
+  },
+  icon: {
+    textAlign: 'center',
+    marginTop: 10,
+
   }
 })
+
 export default WelcomeScreen
