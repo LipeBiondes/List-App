@@ -5,7 +5,8 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList
+  FlatList,
+  Alert
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Constants from 'expo-constants'
@@ -37,9 +38,26 @@ const Main = ({ navigation }) => {
   }
   //Função para apagar a tarefa do bd
   const onTaskDelete = async taskId => {
-    const newTasks = tasks.filter(item => item.id !== taskId)
-    await AsyncStorage.setItem('dataTasks', JSON.stringify(newTasks))
-    setTasks(newTasks)
+    Alert.alert(
+      'Deseja apagar essa tarefa?',
+      '',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel'
+        },
+        {
+          text: 'Confirmar',
+          onPress: async () => {
+            const newTasks = tasks.filter(item => item.id !== taskId)
+            await AsyncStorage.setItem('dataTasks', JSON.stringify(newTasks))
+            setTasks(newTasks)
+          },
+          style: 'destructive'
+        }
+      ],
+      { cancelable: true }
+    )
   }
   //Função para alterar o conclud da tarefa no bd
   const onTaskConclud = async taskId => {
