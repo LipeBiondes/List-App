@@ -200,9 +200,7 @@ const styles = StyleSheet.create({
 
   titleToolBox: {
     flex: 1,
-
   },
-
   taskArea: {
     flex: 9
   },

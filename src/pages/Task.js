@@ -9,7 +9,9 @@ import {
   TouchableOpacity
 } from 'react-native'
 import ValidationAlertButton from '../components/ValidationAlertButton'
-import Icon from 'react-native-vector-icons/FontAwesome'
+//import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/Ionicons';
+
 /** Estrutura do banco
  * id: int
  * task: string
@@ -122,9 +124,9 @@ const Task = ({ navigation, route }) => {
             {isEdit ? 'Altere sua Tarefa' : 'Crie sua Tarefa'}
           </Text>
           <View style={styles.iconTextInput}>
-            <Icon name="list" size={32} color="#000" style={styles.iconList} />
+            <Icon name="ios-checkmark-circle" size={32} color="#000" style={styles.iconList} />
             <TextInput
-              placeholder="Ex: Pegar o rex no veterinário."
+              placeholder="Adicione uma tarefa..."
               style={styles.input}
               value={task}
               onChangeText={text => {
@@ -133,19 +135,19 @@ const Task = ({ navigation, route }) => {
             />
           </View>
 
-          <View>
+          <View style={styles.iconTextDesc}>
+            <Icon name="ios-clipboard" size={32} color="#000" style={styles.iconDesc} />
             <TextInput
-              placeholder="Minha descrição aqui."
-              style={styles.input}
+              placeholder="Adicone uma descrição..."
+              style={styles.inputDesc}
               multiline={true}
-              numberOfLines={5}
+              numberOfLines={1}
               value={description}
               onChangeText={text => {
                 setDescription(text)
               }}
             />
           </View>
-
         </View>
         <View style={styles.boxButtons}>
           <TouchableOpacity
@@ -164,7 +166,6 @@ const Task = ({ navigation, route }) => {
               {isEdit ? 'Atualizar' : 'Cadastrar'}
             </Text>
           </TouchableOpacity>
-
           <TouchableOpacity
             //Botão de Cancelar
             style={styles.cancelButton}
@@ -173,7 +174,6 @@ const Task = ({ navigation, route }) => {
             <Text style={styles.cancelButtonText}>Cancelar</Text>
           </TouchableOpacity>
         </View>
-
       </View>
     </View>
   )
@@ -192,6 +192,12 @@ const styles = StyleSheet.create({
   },
   iconTextInput: {
     flexDirection: 'row',
+    marginRight: 10,
+  },
+  iconTextDesc: {
+    flexDirection: 'row',
+    marginRight: 10,
+
   },
   boxInputs: {
     alignItems: 'stretch',
@@ -200,7 +206,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 8,
-    paddingTop: 16
+    paddingTop: 16,
   },
   pageTitle: {
     fontWeight: 'bold',
@@ -209,16 +215,34 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   iconList: {
-    alignSelf: 'center',
     marginBottom: 20,
-    paddingRight: 6,
-    backgroundColor: '#FFF',
+    marginLeft: 10,
+    marginTop: 10,
     width: 40,
-    height: 40,
+
+  },
+  iconDesc: {
+    marginBottom: 20,
+    marginLeft: 10,
+    marginTop: 20,
+    width: 40,
   },
   input: {
-    fontSize: 26,
+    height: 50,
+    fontSize: 25,
     marginBottom: 20,
+    borderRadius: 4,
+    marginLeft: 4,
+    width: 320,
+    backgroundColor: '#FFF',
+  },
+  inputDesc: {
+    height: 80,
+    borderRadius: 4,
+    fontSize: 25,
+    marginBottom: 20,
+    marginLeft: 4,
+    width: 320,
     backgroundColor: '#FFF',
   },
   inputInvalid: {
