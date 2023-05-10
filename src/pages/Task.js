@@ -8,8 +8,8 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native'
-import Constants from 'expo-constants'
 import ValidationAlertButton from '../components/ValidationAlertButton'
+import Icon from 'react-native-vector-icons/FontAwesome'
 /** Estrutura do banco
  * id: int
  * task: string
@@ -30,7 +30,6 @@ const Task = ({ navigation, route }) => {
   const [description, setDescription] = useState(taskGet.description)
   const [conclud, setConclud] = useState(taskGet.conclud)
   const [showAlert, setShowAlert] = useState(false)
-
   const handlePress = () => {
     setShowAlert(true)
   }
@@ -115,91 +114,128 @@ const Task = ({ navigation, route }) => {
   }
   return (
     <View style={styles.container}>
-      <Text style={styles.pageTitle}>
-        {isEdit ? 'Altere sua Tarefa' : 'Escreva uma nova tarefa...'}
-      </Text>
+      <View style={styles.paddingBorder}>
 
-      <TextInput
-        placeholder="Nome da tarefa."
-        style={styles.input}
-        value={task}
-        onChangeText={text => {
-          setTask(text)
-        }}
-      />
+        <View style={styles.boxInputs}>
 
-      <TextInput
-        placeholder="Detalhe sua tarefa aqui."
-        style={styles.input}
-        multiline={true}
-        numberOfLines={5}
-        value={description}
-        onChangeText={text => {
-          setDescription(text)
-        }}
-      />
+          <Text style={styles.pageTitle}>
+            {isEdit ? 'Altere sua Tarefa' : 'Crie sua Tarefa'}
+          </Text>
+          <View style={styles.iconTextInput}>
+            <Icon name="list" size={32} color="#000" style={styles.iconList} />
+            <TextInput
+              placeholder="Ex: Pegar o rex no veterinário."
+              style={styles.input}
+              value={task}
+              onChangeText={text => {
+                setTask(text)
+              }}
+            />
+          </View>
 
-      <TouchableOpacity
-        //Botão de Cadastrar
-        style={[styles.saveButton, isValid() ? '' : styles.saveButtonInvalid]}
-        //chamando a função de gravar no banco onSave
-        onPress={onSave}
-      >
-        <ValidationAlertButton
-          isVisible={showAlert}
-          title="Error"
-          message="Erro ao salvar, não deixe campos vazios!"
-          onClose={handleClose}
-        />
-        <Text style={styles.saveButtonText}>
-          {isEdit ? 'Atualizar' : 'Cadastrar'}
-        </Text>
-      </TouchableOpacity>
+          <View>
+            <TextInput
+              placeholder="Minha descrição aqui."
+              style={styles.input}
+              multiline={true}
+              numberOfLines={5}
+              value={description}
+              onChangeText={text => {
+                setDescription(text)
+              }}
+            />
+          </View>
 
-      <TouchableOpacity
-        //Botão de Cancelar
-        style={styles.cancelButton}
-        onPress={() => navigation.navigate('Main')}
-      >
-        <Text style={styles.cancelButtonText}>Cancelar</Text>
-      </TouchableOpacity>
+        </View>
+        <View style={styles.boxButtons}>
+          <TouchableOpacity
+            //Botão de Cadastrar
+            style={[styles.saveButton, isValid() ? '' : styles.saveButtonInvalid]}
+            //chamando a função de gravar no banco onSave
+            onPress={onSave}
+          >
+            <ValidationAlertButton
+              isVisible={showAlert}
+              title="Error"
+              message="Erro ao salvar, não deixe campos vazios!"
+              onClose={handleClose}
+            />
+            <Text style={styles.saveButtonText}>
+              {isEdit ? 'Atualizar' : 'Cadastrar'}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            //Botão de Cancelar
+            style={styles.cancelButton}
+            onPress={() => navigation.navigate('Main')}
+          >
+            <Text style={styles.cancelButtonText}>Cancelar</Text>
+          </TouchableOpacity>
+        </View>
+
+      </View>
     </View>
   )
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingTop: Constants.statusBarHeight - 20,
-    margin: 5
+    display: 'flex',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    backgroundColor: '#DDDDDD',
   },
-  containerButtons: {
-    alignItems: 'center'
+  paddingBorder: {
+    padding: 22,
+  },
+  iconTextInput: {
+    flexDirection: 'row',
+  },
+  boxInputs: {
+    alignItems: 'stretch',
+  },
+  boxButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 8,
+    paddingTop: 16
   },
   pageTitle: {
+    fontWeight: 'bold',
     textAlign: 'center',
-    fontSize: 32,
-    marginBottom: 25,
-    marginTop: 5
+    fontSize: 30,
+    marginBottom: 50,
+  },
+  iconList: {
+    alignSelf: 'center',
+    marginBottom: 20,
+    paddingRight: 6,
+    backgroundColor: '#FFF',
+    width: 40,
+    height: 40,
   },
   input: {
     fontSize: 26,
-    borderBottomColor: '#f39c12',
-    borderBottomWidth: 1,
-    marginBottom: 5
+    marginBottom: 20,
+    backgroundColor: '#FFF',
+  },
+  inputInvalid: {
+    borderColor: '#FF0000'
   },
   saveButton: {
-    backgroundColor: '#f39c12',
+    backgroundColor: '#000000',
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 8,
-    marginBottom: 12,
-    marginTop: 22
+    alignItems: 'center'
   },
   saveButtonInvalid: {
-    opacity: 0.6
+    opacity: 0.5
   },
   saveButtonText: {
-    color: '#fff',
+    color: '#FFFBF5',
     fontSize: 26,
     fontWeight: '500',
     alignSelf: 'center'
@@ -210,13 +246,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 8,
-    marginBottom: 20
+    alignItems: 'center'
   },
   cancelButtonText: {
     fontSize: 26,
     color: '#000',
     alignSelf: 'center',
-    fontWeight: '500'
+    fontWeight: '500',
   }
 })
 export default Task

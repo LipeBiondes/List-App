@@ -22,28 +22,28 @@ const WelcomeScreen = ({ navigation }) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E9967A',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#F0F0F0",
+    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 20,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 2
   },
   background: {
-    backgroundColor: '#FA8072',
+    backgroundColor: '#F7F7F7',
     padding: 20,
     borderRadius: 10
   },
   title: {
     fontSize: 35,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
     textAlign: 'center',
-    color: '#4B0082',
-    textShadowColor: '#fff',
+    color: '#000',
+    textShadowColor: '#000',
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 2
   },

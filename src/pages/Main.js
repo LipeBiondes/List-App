@@ -112,97 +112,122 @@ const Main = ({ navigation }) => {
   const onDisplayDescription = 'Colocar o codigo aqui'
   return (
     <View style={styles.container}>
-      <View style={styles.toolBox}>
-        <Text style={styles.title}>Lista de Tarefas</Text>
-        <TouchableOpacity style={styles.toolBoxButton} onPress={onNewTask}>
-          <Icon name="plus" size={32} color="#fff" />
+      <View style={styles.titleToolBox}>
+        <TouchableOpacity style={styles.toolBox}
+          onPress={onNewTask}
+        >
+          <Text style={styles.title}>Adicionar </Text>
+          {/* <TouchableOpacity style={styles.toolBoxButton} onPress={onNewTask}>
+            {<Icon name="plus" size={32} color="#fff" /> }
+          </TouchableOpacity> */}
         </TouchableOpacity>
       </View>
-      <FlatList
-        //Renderizando os itens recuperados do bd
-        data={tasks}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.itemsContainer}>
-            <TouchableOpacity
-              style={styles.textButton}
-              onPress={() => alert('implementar codigo de exibir a descrição')}
-            >
-              <Text
-                style={[
-                  styles.itemText,
-                  item.conclud ? styles.itemConlcud : ''
-                ]}
+
+      <View style={styles.taskArea}>
+        <FlatList
+          //Renderizando os itens recuperados do bd
+          data={tasks}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.itemsContainer}>
+              <TouchableOpacity
+                style={styles.textButton}
+                onPress={() => alert('implementar codigo de exibir a descrição')}
               >
-                {item.task}
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={[
+                    styles.itemText,
+                    item.conclud ? styles.itemConlcud : ''
+                  ]}
+                >
+                  {item.task}
+                </Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.checkButton}
-              onPress={() => onTaskConclud(item.id)}
-            >
-              <Icon name={item.icon} size={35} color="#000" />
-              <AlertConcludTask
-                isVisible={showAlertConcludTask}
-                taskName={item.task}
-                onClose={handleCloseConcludTask}
-              />
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.checkButton}
+                onPress={() => onTaskConclud(item.id)}
+              >
+                <Icon name={item.icon} size={35} color="#000" />
+                <AlertConcludTask
+                  isVisible={showAlertConcludTask}
+                  taskName={item.task}
+                  onClose={handleCloseConcludTask}
+                />
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.editButton}
-              onPress={() => onTaskEdit(item.id)}
-            >
-              <Icon name="pencil" size={35} color="#2ecc71" />
-              <AlertErroEditTask
-                isVisible={showAlertErrorEditTask}
-                taskName={item.task}
-                onClose={handleCloseAlertErrorEditTask}
-              />
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.editButton}
+                onPress={() => onTaskEdit(item.id)}
+              >
+                <Icon name="pencil" size={35} color="#000" />
+                <AlertErroEditTask
+                  isVisible={showAlertErrorEditTask}
+                  taskName={item.task}
+                  onClose={handleCloseAlertErrorEditTask}
+                />
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.deleteButton}
-              onPress={() => handlePressDeleteButton(item.id)}
-            >
-              <AlertDeleteButton
-                isVisible={showAlertDeleteButton}
-                title="Alerta"
-                message={messageTaskDeleteButton}
-                onClose={handleCloseDeleteButton}
-                onConfirm={() => onTaskDelete()}
-              />
-              <Icon name="trash-o" size={35} color="red" />
-            </TouchableOpacity>
-          </View>
-        )}
-      />
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={() => handlePressDeleteButton(item.id)}
+              >
+                <AlertDeleteButton
+                  isVisible={showAlertDeleteButton}
+                  title="Alerta"
+                  message={messageTaskDeleteButton}
+                  onClose={handleCloseDeleteButton}
+                  onConfirm={() => onTaskDelete()}
+                />
+                <Icon name="trash-o" size={35} color="red" />
+              </TouchableOpacity>
+            </View>
+          )}
+        />
+      </View>
     </View>
   )
 }
 const styles = StyleSheet.create({
   container: {
+    cursor: 'pointer',
     flex: 1,
+    flexDirection: 'column-reverse',
     padding: 5,
     paddingTop: Constants.statusBarHeight - 20,
-    backgroundColor: '#f0ee87'
+    backgroundColor: '#F0F0F0'
+  },
+
+  titleToolBox: {
+    flex: 1,
+
+  },
+
+  taskArea: {
+    flex: 9
   },
   toolBox: {
+    padding: 5,
     flexDirection: 'row',
     marginBottom: 5,
-    marginRight: 5
+    marginRight: 5,
+    bottom: 3,
+    backgroundColor: '#fff',
+    borderRadius: 7,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
   },
   title: {
-    flex: 1,
-    color: '#3498db',
-    fontSize: 40
+    fontWeight: 'bold',
+    color: '#000',
+    fontSize: 35,
   },
   toolBoxButton: {
     borderRadius: 50,
-    backgroundColor: '#3498db',
-    height: 42,
-    width: 42,
+    backgroundColor: '#000',
+    height: "35%",
+    width: "12%",
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -210,22 +235,23 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     borderBottomWidth: 2,
-    borderBottomColor: '#d7dd75',
+    borderBottomColor: '#95a5a6',
     alignItems: 'center',
     paddingRight: 2
   },
   checkButton: {
     flex: 1,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    paddingRight: 4
   },
   editButton: {
-    paddingRight: 2
+    paddingRight: 4
   },
   itemText: {
     fontSize: 35
   },
   deleteButton: {
-    paddingRight: 2
+    paddingRight: 4
   },
   itemConlcud: {
     textDecorationLine: 'line-through',
