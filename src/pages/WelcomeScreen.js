@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome'
-
+//import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/Ionicons';
 const WelcomeScreen = ({ navigation }) => {
   return (
     <View style={style.container}>
@@ -12,7 +12,7 @@ const WelcomeScreen = ({ navigation }) => {
             Para começar bem o seu dia, comece organizando as suas tarefas!
           </Text>
           {/* <Icon name="fa-laugh-beam" size={35} color="#fff" style={style.icon} /> */}
-          <Icon name="pencil" size={35} color="#000" style={style.icon} />
+          <Icon name="ios-rocket" size={35} color="#CE5959" style={style.icon} />
         </TouchableOpacity>
       </View>
     </View>
@@ -26,14 +26,18 @@ const style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
-    elevation: 2
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.00,
+    elevation: 24,
+    zIndex: 1,
   },
   background: {
-    backgroundColor: '#F7F7F7',
+    backgroundColor: '#fff',
     padding: 20,
     borderRadius: 10
   },
