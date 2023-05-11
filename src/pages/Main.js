@@ -246,20 +246,21 @@ const styles = StyleSheet.create({
   },
   toolBox: {
     padding: 5,
+    height: 55,
     flexDirection: 'row',
     marginBottom: 5,
     marginRight: 5,
     bottom: 3,
-    backgroundColor: '#fff',
+    backgroundColor: '#CE5959',
     borderRadius: 7,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 2
+    //borderWidth: 2
   },
   title: {
     fontWeight: 'bold',
-    color: '#000',
-    fontSize: 35
+    color: '#fff',
+    fontSize: 28
   },
   toolBoxButton: {
     borderRadius: 50,
