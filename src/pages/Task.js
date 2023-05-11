@@ -12,6 +12,7 @@ import ValidationAlertButton from '../components/ValidationAlertButton'
 //import Icon from 'react-native-vector-icons/FontAwesome'
 import Icon from 'react-native-vector-icons/Ionicons'
 
+
 /** Estrutura do banco
  * id: int
  * task: string
