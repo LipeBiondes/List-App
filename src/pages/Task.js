@@ -12,7 +12,6 @@ import ValidationAlertButton from '../components/ValidationAlertButton'
 //import Icon from 'react-native-vector-icons/FontAwesome'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-
 /** Estrutura do banco
  * id: int
  * task: string
@@ -259,7 +258,7 @@ const styles = StyleSheet.create({
     borderColor: '#FF0000'
   },
   saveButton: {
-    backgroundColor: '#000000',
+    backgroundColor: '#CE5959',
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 8,
@@ -276,15 +275,15 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     borderColor: '#000',
-    borderWidth: 1,
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 8,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#000'
   },
   cancelButtonText: {
     fontSize: 26,
-    color: '#000',
+    color: '#FFFBF5',
     alignSelf: 'center',
     fontWeight: '500'
   }

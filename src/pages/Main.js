@@ -201,7 +201,7 @@ const Main = ({ navigation }) => {
                     onClose={handleCloseDeleteButton}
                     onConfirm={() => onTaskDelete()}
                   />
-                  <Icon name="trash-o" size={35} color="red" />
+                  <Icon name="trash-o" size={35} color="#CE5959" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#CE5959',
     borderRadius: 7,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
     //borderWidth: 2
   },
   title: {

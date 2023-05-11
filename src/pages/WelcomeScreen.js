@@ -1,14 +1,17 @@
 import * as React from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 //import Icon from 'react-native-vector-icons/FontAwesome'
-import Icon from 'react-native-vector-icons/Ionicons';
-import { Image } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons'
+import { Image } from 'react-native'
 
 const WelcomeScreen = ({ navigation }) => {
   return (
     <View style={style.container}>
       <View style={style.imageStyle}>
-        <Image source={require("../assets/muie.jpg")} style={style.ImageItself}></Image>
+        <Image
+          source={require('../assets/muie.jpg')}
+          style={style.ImageItself}
+        ></Image>
       </View>
       <View style={style.background}>
         <Text style={style.title}> Seja bem-vindo!</Text>
@@ -28,10 +31,10 @@ const WelcomeScreen = ({ navigation }) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 20,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20
   },
   background: {
     backgroundColor: '#fff',
@@ -41,7 +44,7 @@ const style = StyleSheet.create({
   },
   title: {
     fontSize: 25,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
     color: '#000',
@@ -59,13 +62,13 @@ const style = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     alignItems: 'center',
-    backgroundColor: '#CE5959',
+    backgroundColor: '#CE5959'
   },
 
   StartButton: {
     fontWeight: 'bold',
     color: '#fff',
-    fontSize: 25,
+    fontSize: 25
   },
   imageStyle: {
     alignItems: 'center',
