@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import ValidationAlertButton from '../components/ValidationAlertButton'
 //import Icon from 'react-native-vector-icons/FontAwesome'
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Ionicons'
 
 /** Estrutura do banco
  * id: int
@@ -117,14 +117,17 @@ const Task = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.paddingBorder}>
-
         <View style={styles.boxInputs}>
-
           <Text style={styles.pageTitle}>
             {isEdit ? 'Altere sua Tarefa' : 'Crie sua Tarefa'}
           </Text>
           <View style={styles.iconTextInput}>
-            <Icon name="ios-checkmark-circle" size={32} color="#000" style={styles.iconList} />
+            <Icon
+              name="ios-checkmark-circle"
+              size={32}
+              color="#000"
+              style={styles.iconList}
+            />
             <TextInput
               placeholder="Adicione uma tarefa..."
               style={styles.input}
@@ -136,7 +139,12 @@ const Task = ({ navigation, route }) => {
           </View>
 
           <View style={styles.iconTextDesc}>
-            <Icon name="ios-clipboard" size={32} color="#000" style={styles.iconDesc} />
+            <Icon
+              name="ios-clipboard"
+              size={32}
+              color="#000"
+              style={styles.iconDesc}
+            />
             <TextInput
               placeholder="Adicone uma descrição..."
               style={styles.inputDesc}
@@ -151,8 +159,18 @@ const Task = ({ navigation, route }) => {
         </View>
         <View style={styles.boxButtons}>
           <TouchableOpacity
+            //Botão de Cancelar
+            style={styles.cancelButton}
+            onPress={() => navigation.navigate('Main')}
+          >
+            <Text style={styles.cancelButtonText}>Cancelar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             //Botão de Cadastrar
-            style={[styles.saveButton, isValid() ? '' : styles.saveButtonInvalid]}
+            style={[
+              styles.saveButton,
+              isValid() ? '' : styles.saveButtonInvalid
+            ]}
             //chamando a função de gravar no banco onSave
             onPress={onSave}
           >
@@ -166,13 +184,6 @@ const Task = ({ navigation, route }) => {
               {isEdit ? 'Atualizar' : 'Cadastrar'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            //Botão de Cancelar
-            style={styles.cancelButton}
-            onPress={() => navigation.navigate('Main')}
-          >
-            <Text style={styles.cancelButtonText}>Cancelar</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -185,47 +196,45 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#DDDDDD'
   },
   paddingBorder: {
-    padding: 22,
+    padding: 22
   },
   iconTextInput: {
     flexDirection: 'row',
-    marginRight: 10,
+    marginRight: 10
   },
   iconTextDesc: {
     flexDirection: 'row',
-    marginRight: 10,
-
+    marginRight: 10
   },
   boxInputs: {
-    alignItems: 'stretch',
+    alignItems: 'stretch'
   },
   boxButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 8,
-    paddingTop: 16,
+    paddingTop: 16
   },
   pageTitle: {
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 30,
-    marginBottom: 50,
+    marginBottom: 50
   },
   iconList: {
     marginBottom: 20,
     marginLeft: 10,
     marginTop: 10,
-    width: 40,
-
+    width: 40
   },
   iconDesc: {
     marginBottom: 20,
     marginLeft: 10,
     marginTop: 20,
-    width: 40,
+    width: 40
   },
   input: {
     height: 50,
@@ -234,7 +243,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginLeft: 4,
     width: 320,
-    backgroundColor: '#FFF',
+    backgroundColor: '#FFF'
   },
   inputDesc: {
     height: 80,
@@ -243,7 +252,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginLeft: 4,
     width: 320,
-    backgroundColor: '#FFF',
+    backgroundColor: '#FFF'
   },
   inputInvalid: {
     borderColor: '#FF0000'
@@ -276,7 +285,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     color: '#000',
     alignSelf: 'center',
-    fontWeight: '500',
+    fontWeight: '500'
   }
 })
 export default Task

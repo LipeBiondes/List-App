@@ -12,6 +12,7 @@ import Constants from 'expo-constants'
 import AlertDeleteButton from '../components/AlertDeleteButton'
 import AlertConcludTask from '../components/AlertConcludTask'
 import AlertErroEditTask from '../components/AlertErroEditTask'
+import AlertDescriptionTask from '../components/AlertDescriptionTask'
 const Main = ({ navigation }) => {
   //essa const armazena as tarefas recuperadas
   const [tasks, setTasks] = useState([])
@@ -19,15 +20,19 @@ const Main = ({ navigation }) => {
   const [showAlertDeleteButton, setShowAlertDeleteButton] = useState(false)
   const [showAlertConcludTask, setShowAlertConcludTask] = useState(false)
   const [showAlertErrorEditTask, setShowAlertErrorEditTask] = useState(false)
+  const [showAlertDescriptionTask, setShowAlertDescriptionTask] =
+    useState(false)
   //essa const armazena o id da tarefa quando o usuario clica em deletar
   const [idButtonDelete, setIdButtonDelete] = useState('')
   const [messageTaskDeleteButton, setMessageTaskDeleteButton] = useState('')
+  const [messageTaskConcludTask, setMessageTaskConcludTask] = useState('')
+  const [onClicktAlertTask, setOnClickAlertTask] = useState('')
+  const [onClickAlertDescription, setOnClickAlertDescription] = useState('')
+  const [taskCheck, setTaskCheck] = useState('')
 
   const onHandlePressMessage = async idTask => {
     const messageTask = tasks.find(item => item.id === idTask)
-    setMessageTaskDeleteButton(
-      `Você deseja excluir essa tarefa: ${messageTask.task} ?`
-    )
+    setMessageTaskDeleteButton(`Excluir essa tarefa: ${messageTask.task} ?`)
   }
 
   //Exibe o modal Tarefa concluida
@@ -37,6 +42,12 @@ const Main = ({ navigation }) => {
   //Fecha o modal
   const handleCloseConcludTask = () => {
     setShowAlertConcludTask(false)
+  }
+  const handlePressDescriptionTask = () => {
+    setShowAlertDescriptionTask(true)
+  }
+  const handleCloseDescriptionTask = () => {
+    setShowAlertDescriptionTask(false)
   }
   //Exibe o modal AlertErroEditTask
   const handlePressEditTask = () => {
@@ -73,6 +84,7 @@ const Main = ({ navigation }) => {
   const onTaskEdit = taskId => {
     const task = tasks.find(item => item.id === taskId)
     if (task.conclud) {
+      setTaskCheck(task.task)
       handlePressEditTask()
     } else {
       navigation.navigate('Task', { taskGet: task, isEdit: true })
@@ -96,10 +108,13 @@ const Main = ({ navigation }) => {
     const newTasks = tasks.map(item => {
       if (item.id === taskId) {
         item.conclud = !item.conclud
+        setMessageTaskConcludTask(item.task)
+        if (item.conclud) {
+          handlePressConcludTask()
+        }
       }
       if (item.conclud) {
         item.icon = 'check-square-o'
-        handlePressConcludTask()
       } else {
         item.icon = 'square-o'
       }
@@ -109,17 +124,16 @@ const Main = ({ navigation }) => {
     setTasks(newTasks)
   }
   //Função para exibir a descrição da tarefa quando clicar nela.
-  const onDisplayDescription = 'Colocar o codigo aqui'
+  const onDisplayDescription = async (itemTask, itemDescription) => {
+    setOnClickAlertTask(itemTask)
+    setOnClickAlertDescription(itemDescription)
+    handlePressDescriptionTask()
+  }
   return (
     <View style={styles.container}>
       <View style={styles.titleToolBox}>
-        <TouchableOpacity style={styles.toolBox}
-          onPress={onNewTask}
-        >
+        <TouchableOpacity style={styles.toolBox} onPress={onNewTask}>
           <Text style={styles.title}>Adicionar </Text>
-          {/* <TouchableOpacity style={styles.toolBoxButton} onPress={onNewTask}>
-            {<Icon name="plus" size={32} color="#fff" /> }
-          </TouchableOpacity> */}
         </TouchableOpacity>
       </View>
 
@@ -130,57 +144,66 @@ const Main = ({ navigation }) => {
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <View style={styles.itemsContainer}>
-              <TouchableOpacity
-                style={styles.textButton}
-                onPress={() => alert('implementar codigo de exibir a descrição')}
-              >
-                <Text
-                  style={[
-                    styles.itemText,
-                    item.conclud ? styles.itemConlcud : ''
-                  ]}
+              <View style={styles.textBox}>
+                <TouchableOpacity
+                  onPress={async () =>
+                    onDisplayDescription(item.task, item.description)
+                  }
                 >
-                  {item.task}
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={[
+                      styles.itemText,
+                      item.conclud ? styles.itemConlcud : ''
+                    ]}
+                  >
+                    {item.task}
+                  </Text>
+                  <AlertDescriptionTask
+                    isVisible={showAlertDescriptionTask}
+                    title={onClicktAlertTask}
+                    description={onClickAlertDescription}
+                    onClose={handleCloseDescriptionTask}
+                  />
+                </TouchableOpacity>
+              </View>
 
-              <TouchableOpacity
-                style={styles.checkButton}
-                onPress={() => onTaskConclud(item.id)}
-              >
-                <Icon name={item.icon} size={35} color="#000" />
-                <AlertConcludTask
-                  isVisible={showAlertConcludTask}
-                  taskName={item.task}
-                  onClose={handleCloseConcludTask}
-                />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.editButton}
-                onPress={() => onTaskEdit(item.id)}
-              >
-                <Icon name="pencil" size={35} color="#000" />
-                <AlertErroEditTask
-                  isVisible={showAlertErrorEditTask}
-                  taskName={item.task}
-                  onClose={handleCloseAlertErrorEditTask}
-                />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.deleteButton}
-                onPress={() => handlePressDeleteButton(item.id)}
-              >
-                <AlertDeleteButton
-                  isVisible={showAlertDeleteButton}
-                  title="Alerta"
-                  message={messageTaskDeleteButton}
-                  onClose={handleCloseDeleteButton}
-                  onConfirm={() => onTaskDelete()}
-                />
-                <Icon name="trash-o" size={35} color="red" />
-              </TouchableOpacity>
+              <View style={styles.boxButtons}>
+                <TouchableOpacity
+                  style={styles.checkButton}
+                  onPress={() => onTaskConclud(item.id)}
+                >
+                  <Icon name={item.icon} size={38} color="#000" />
+                  <AlertConcludTask
+                    isVisible={showAlertConcludTask}
+                    taskName={messageTaskConcludTask}
+                    onClose={handleCloseConcludTask}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.editButton}
+                  onPress={() => onTaskEdit(item.id)}
+                >
+                  <Icon name="pencil" size={35} color="#000" />
+                  <AlertErroEditTask
+                    isVisible={showAlertErrorEditTask}
+                    taskName={taskCheck}
+                    onClose={handleCloseAlertErrorEditTask}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.deleteButton}
+                  onPress={() => handlePressDeleteButton(item.id)}
+                >
+                  <AlertDeleteButton
+                    isVisible={showAlertDeleteButton}
+                    title="Alerta"
+                    message={messageTaskDeleteButton}
+                    onClose={handleCloseDeleteButton}
+                    onConfirm={() => onTaskDelete()}
+                  />
+                  <Icon name="trash-o" size={35} color="red" />
+                </TouchableOpacity>
+              </View>
             </View>
           )}
         />
@@ -197,12 +220,29 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight - 20,
     backgroundColor: '#F0F0F0'
   },
-
   titleToolBox: {
-    flex: 1,
+    flex: 1
   },
   taskArea: {
     flex: 9
+  },
+  textBox: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  boxButtons: {
+    width: 120,
+    height: 60,
+    flexDirection: 'row',
+    paddingRight: 5,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    borderWidth: 2,
+    borderColor: '#95a5a6',
+    borderRadius: 7,
+    backgroundColor: '#fff',
+    padding: 5
   },
   toolBox: {
     padding: 5,
@@ -214,39 +254,43 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 2,
+    borderWidth: 2
   },
   title: {
     fontWeight: 'bold',
     color: '#000',
-    fontSize: 35,
+    fontSize: 35
   },
   toolBoxButton: {
     borderRadius: 50,
     backgroundColor: '#000',
-    height: "35%",
-    width: "12%",
+    height: '35%',
+    width: '12%',
     justifyContent: 'center',
     alignItems: 'center'
   },
   itemsContainer: {
-    flex: 1,
     flexDirection: 'row',
     borderBottomWidth: 2,
     borderBottomColor: '#95a5a6',
     alignItems: 'center',
-    paddingRight: 2
+    paddingBottom: 5,
+    paddingTop: 5
   },
   checkButton: {
-    flex: 1,
-    alignSelf: 'center',
-    paddingRight: 4
+    paddingRight: 4,
+    paddingTop: 5
   },
   editButton: {
     paddingRight: 4
   },
   itemText: {
-    fontSize: 35
+    fontSize: 32,
+    color: '#000',
+    fontWeight: 'bold',
+    paddingLeft: 5,
+    paddingRight: 5,
+    textAlign: 'left'
   },
   deleteButton: {
     paddingRight: 4
@@ -254,10 +298,6 @@ const styles = StyleSheet.create({
   itemConlcud: {
     textDecorationLine: 'line-through',
     color: '#95a5a6'
-  },
-  textButton: {
-    flex: 9,
-    flexDirection: 'row'
   }
 })
 export default Main

@@ -57,22 +57,26 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     flexDirection: 'row',
-    marginTop: 20
+    marginTop: 20,
+    justifyContent: 'space-between'
   },
   button: {
-    borderRadius: 5,
+    borderRadius: 10,
     padding: 10
   },
   cancelButton: {
-    backgroundColor: 'red',
-    marginRight: 10
+    backgroundColor: '#000',
+    marginRight: 10,
+    flex: 1
   },
   confirmButton: {
-    backgroundColor: 'green'
+    backgroundColor: 'red',
+    flex: 1
   },
   buttonText: {
     color: 'white',
-    fontSize: 22
+    fontSize: 22,
+    textAlign: 'center'
   }
 })
 
