@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.Uepa.ListApp",
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
@@ -32,8 +32,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "76015b0d-4749-4707-bdad-761ee422f16c"
+        "projectId": "aa927b58-a4ee-481e-bb06-5a2e264052c0"
       }
-    }
+    },
+    "owner": "lipezinho"
   }
 }
