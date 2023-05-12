@@ -1,7 +1,5 @@
 import * as React from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
-//import Icon from 'react-native-vector-icons/FontAwesome'
-import Icon from 'react-native-vector-icons/Ionicons'
 import { Image } from 'react-native'
 
 const WelcomeScreen = ({ navigation }) => {
