@@ -216,15 +216,22 @@ const styles = StyleSheet.create({
     cursor: 'pointer',
     flex: 1,
     flexDirection: 'column-reverse',
-    padding: 5,
-    paddingTop: Constants.statusBarHeight - 20,
-    backgroundColor: '#F0F0F0'
+    padding: 2,
+    paddingTop: Constants.statusBarHeight - 36,
+    backgroundColor: '#F0F0F0',
+    height: '100%',
+    width: '100%'
   },
   titleToolBox: {
-    flex: 1
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'center'
   },
   taskArea: {
-    flex: 9
+    flex: 9,
+    width: '100%'
   },
   textBox: {
     flex: 1,
@@ -246,16 +253,15 @@ const styles = StyleSheet.create({
   },
   toolBox: {
     padding: 5,
-    height: 55,
-    flexDirection: 'row',
-    marginBottom: 5,
-    marginRight: 5,
-    bottom: 3,
+    height: 52,
+    // marginBottom: 5,
+    // marginRight: 5,
     backgroundColor: '#CE5959',
     borderRadius: 7,
     justifyContent: 'center',
-    alignItems: 'center'
-    //borderWidth: 2
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    width: '100%'
   },
   title: {
     fontWeight: 'bold',
